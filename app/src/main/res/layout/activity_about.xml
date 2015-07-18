@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/about_toolbar"
+            style="@style/AppToolbar" />
+        <TextView
+            android:id="@+id/about_intro"
+            style="@style/AboutText"
+            android:text="@string/about_intro" />
+        <TextView
+            style="@style/AboutH1"
+            android:text="@string/open_source_heading" />
+        <TextView
+            style="@style/AboutText"
+            android:text="@string/about_licenses" />
+        <TextView
+            style="@style/AboutH2"
+            android:text="@string/realm_heading" />
+        <TextView
+            style="@style/AboutText"
+            android:text="@string/realm_text" />
+        <TextView
+            style="@style/AboutH2"
+            android:text="@string/sliding_panel_heading" />
+        <TextView
+            style="@style/AboutText"
+            android:text="@string/sliding_panel_text" />
+        <TextView
+            style="@style/AboutH2"
+            android:text="@string/saripaar_heading" />
+        <TextView
+            style="@style/AboutText"
+            android:text="@string/saripaar_text" />
+        <TextView
+            style="@style/AboutH2"
+            android:text="@string/android_heading" />
+        <TextView
+            style="@style/AboutText"
+            android:id="@+id/android_license" />
+    </LinearLayout>
+</ScrollView>

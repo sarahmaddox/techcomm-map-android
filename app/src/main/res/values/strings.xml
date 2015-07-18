@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">TechCommMap</string>
+    <string name="title_activity_maps">Tech Comm on a Map</string>
+    <string name="layers_button">Event types</string>
+    <string name="action_layers">Select event types</string>
+    <string name="layers_dialog">Select event types</string>
+    <string name="autocomplete_hint">Enter a place name or address</string>
+    <string name="selected_place">Last selected place:</string>
+    <string name="clear_text">x</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="title_activity_add_event">AddEvent</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add_event">Add event</string>
+    <string name="add_event_type">Event type *</string>
+    <string name="add_event_name">Name *</string>
+    <string name="add_event_name_help">Short name of the conference, business, group, etc</string>
+    <string name="add_event_description">Description</string>
+    <string name="add_event_website">Website *</string>
+    <string name="add_event_website_help">A full URL, like https://example.com</string>
+    <string name="add_event_start_date">Start date</string>
+    <string name="add_event_end_date">End date</string>
+    <string name="add_event_pick_place">Pick a place *</string>
+    <string name="add_event_no_place_selected">No place selected. Please pick one!</string>
+    <string name="add_event_submit">Submit</string>
+    <string name="add_event_missing_place">Please pick the place where the event is
+        happening.</string>
+    <string name="add_event_missing_type">Please select an event type.</string>
+    <string name="add_event_success">Thanks for your submission! It will appear on the map after
+        moderation.</string>
+    <string name="add_event_error">There was an error submitting your input. Did you specify all the
+        fields?</string>
+    <string-array name="add_types_array">
+        <item>Select a type...</item>
+        <item>Business</item>
+        <item>Conference 2015</item>
+        <item>Conference 2016</item>
+        <item>Course</item>
+        <item>Group</item>
+        <item>Society</item>
+        <item>Other</item>
+    </string-array>
+    <string name="action_about">About</string>
+    <string name="title_activity_about">About Tech Comm on a Map</string>
+    <string name="about_intro">An interactive map of events and other items of
+        interest to technical communicators all over the world.
+        <a href="https://ffeathers.wordpress.com/tech-comm-on-a-map/">More...</a></string>
+    <string name="about_licenses">Tech Comm on a Map uses a number of open source components, listed
+        below with the relevant copyright notices and licenses.</string>
+    <string name="open_source_heading">Open Source Notices</string>
+    <string name="android_heading">Android Open Source Project</string>
+    <string name="realm_heading">Realm for Android</string>
+    <string name="realm_text">Licensed under the Apache License, Version 2.0.</string>
+    <string name="sliding_panel_heading">AndroidSlidingUpPanel</string>
+    <string name="sliding_panel_text">Licensed under the Apache License, Version 2.0.</string>
+    <string name="saripaar_heading">android-saripaar</string>
+    <string name="saripaar_text">Copyright 2012 - 2015 Mobs &amp; Geeks. Licensed under the Apache
+        License, Version 2.0.</string>
+</resources>
