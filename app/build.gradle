@@ -35,5 +35,5 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'io.realm:realm-android:0.80.1'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
-    compile 'com.mobsandgeeks:android-saripaar:2.0-SNAPSHOT'
+    compile 'com.mobsandgeeks:android-saripaar:2.0.2'
 }
