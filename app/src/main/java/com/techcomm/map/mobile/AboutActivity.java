@@ -6,6 +6,7 @@ import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
@@ -31,7 +32,8 @@ public class AboutActivity extends Activity {
         introTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Get and display the Android legal notices.
-        String androidLicenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(getApplicationContext());
+        String androidLicenseInfo = GoogleApiAvailability.getInstance()
+                .getOpenSourceSoftwareLicenseInfo(getApplicationContext());
         TextView androidTextView = (TextView) findViewById(R.id.android_license);
         androidTextView.setText(androidLicenseInfo);
     }
