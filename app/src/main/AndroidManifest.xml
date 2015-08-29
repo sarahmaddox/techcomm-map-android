@@ -11,6 +11,14 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"
+        android:requiresSmallestWidthDp="320"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
