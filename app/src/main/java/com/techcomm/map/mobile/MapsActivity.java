@@ -7,6 +7,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,7 +56,7 @@ import io.realm.Realm;
  * Displays a map, with markers indicating the community events and other items
  * of interest to technical communicators.
  */
-public class MapsActivity extends FragmentActivity implements
+public class MapsActivity extends ActionBarActivity implements
         OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener {
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -246,8 +248,8 @@ public class MapsActivity extends FragmentActivity implements
         slidingLayout.setPanelSlideListener(slideListener);
 
         // Add the toolbar at the top of the screen.
-        Toolbar toolbar = (Toolbar)(findViewById(R.id.toolbar));
-        setActionBar(toolbar);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)(findViewById(R.id.toolbar));
+        setSupportActionBar(toolbar);
 
         mGoogleApiClient.connect();
     }

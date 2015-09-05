@@ -1,14 +1,15 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_refresh"
         android:title="@string/action_refresh"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
     <item android:id="@+id/action_settings"
         android:title="@string/action_layers"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
     <item android:id="@+id/action_add_event"
         android:title="@string/action_add_event"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
     <item android:id="@+id/action_about"
         android:title="About"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 </menu>
