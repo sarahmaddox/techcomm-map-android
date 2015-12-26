@@ -72,10 +72,10 @@ public class AddEventActivity extends FragmentActivity
     @Url
     private EditText websiteEditText;
 
-    @Pattern(regex = "(\\d{2} \\d{2} \\d{4})?", message = "Date must follow the dd mm yyyy format")
+    @Pattern(regex = "(\\d{2} \\d{2} \\d{4})?", message = "Date must be in format dd mm yyyy")
     private EditText startDateEditText;
 
-    @Pattern(regex = "(\\d{2} \\d{2} \\d{4})?", message = "Date must follow the dd mm yyyy format")
+    @Pattern(regex = "(\\d{2} \\d{2} \\d{4})?", message = "Date must be in format dd mm yyyy")
     private EditText endDateEditText;
 
     private Validator validator;
