@@ -1,5 +1,6 @@
 package com.techcomm.map.mobile;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -193,9 +194,8 @@ public class AddEventActivity extends FragmentActivity
             public void onClick(View v) {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
-                Context context = getApplicationContext();
                 try {
-                    startActivityForResult(builder.build(context), PLACE_PICKER_REQUEST);
+                    startActivityForResult(builder.build(AddEventActivity.this), PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
                     Log.e(TAG, "An error has occurred", e);
                 } catch (GooglePlayServicesNotAvailableException e) {
@@ -233,7 +233,7 @@ public class AddEventActivity extends FragmentActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                mPickedPlace = PlacePicker.getPlace(data, this);
+                mPickedPlace = PlacePicker.getPlace(this, data);
             } else {
                 mPickedPlace = null;
             }
