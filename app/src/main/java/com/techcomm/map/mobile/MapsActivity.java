@@ -301,6 +301,13 @@ public class MapsActivity extends ActionBarActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (map != null) {
+                map.setMyLocationEnabled(true);
+            }
+        }
         updateMarkers();
     }
 
@@ -332,9 +339,7 @@ public class MapsActivity extends ActionBarActivity implements
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
-            Log.d(TAG, "==== PERMISSION ALREADY GRANTED ====");
         } else {
-            Log.d(TAG, "==== PERMISSIONS NOT YET GRANTED. ABOUT TO CHECK. ====");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
@@ -398,7 +403,7 @@ public class MapsActivity extends ActionBarActivity implements
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
-        Log.d(TAG, "==== IN onMapReady AFTER PERMISSIONS CHECK. ==== " + locationPermissionGranted);
+
         if (locationPermissionGranted) {
             map.setMyLocationEnabled(true);
         }
@@ -437,18 +442,15 @@ public class MapsActivity extends ActionBarActivity implements
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         locationPermissionGranted = false;
-        Log.d(TAG, "==== STARTING PERMISSIONS CHECK. ====");
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true;
-                    Log.d(TAG, "==== PERMISSIONS CHECK is TRUE. ====");
                 }
             }
         }
-        Log.d(TAG, "==== DONE PERMISSIONS CHECK. ====");
     }
 
     /**
