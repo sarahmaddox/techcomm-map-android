@@ -1,14 +1,16 @@
 package com.techcomm.map.mobile;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,11 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.techcomm.map.mobile.data.EventData;
-import com.techcomm.map.mobile.render.ClusterRenderer;
-import com.techcomm.map.mobile.render.EventMarker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
@@ -43,6 +41,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.maps.android.clustering.ClusterManager;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.techcomm.map.mobile.data.EventData;
+import com.techcomm.map.mobile.render.ClusterRenderer;
+import com.techcomm.map.mobile.render.EventMarker;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,6 +62,8 @@ public class MapsActivity extends ActionBarActivity implements
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_CURRENT_EVENT_ID = "current_event_id";
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean locationPermissionGranted;
 
     // The entry point to Google Play services.
     protected GoogleApiClient mGoogleApiClient;
@@ -304,7 +307,9 @@ public class MapsActivity extends ActionBarActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        mClusterManager.clearItems();
+        if (mClusterManager != null) {
+            mClusterManager.clearItems();
+        }
     }
 
     @Override
@@ -320,9 +325,25 @@ public class MapsActivity extends ActionBarActivity implements
      */
     @Override
     public void onConnected(Bundle connectionHint) {
+        // Request location permissions, so that we can get the location of the
+        // device. The result of the permissions request is handled by a callback,
+        // onRequestPermissionsResult.
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+            Log.d(TAG, "==== PERMISSION ALREADY GRANTED ====");
+        } else {
+            Log.d(TAG, "==== PERMISSIONS NOT YET GRANTED. ABOUT TO CHECK. ====");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
         // Get the best and most recent location of the device, which may be null
         // in rare cases when a location is not available.
-        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (locationPermissionGranted) {
+            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        }
         if (mCurrentLocation == null) {
             Log.d(TAG, "Current location null. Setting to default.");
         }
@@ -365,7 +386,22 @@ public class MapsActivity extends ActionBarActivity implements
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
-        map.setMyLocationEnabled(true);
+        // Request location permissions, so that we can get the location of the
+        // device. The result of the permissions request is handled by a callback,
+        // onRequestPermissionsResult.
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        Log.d(TAG, "==== IN onMapReady AFTER PERMISSIONS CHECK. ==== " + locationPermissionGranted);
+        if (locationPermissionGranted) {
+            map.setMyLocationEnabled(true);
+        }
         // Manages groups of markers in clusters, for easier viewing when there are many
         // markers in a small geographical area.
         mClusterManager = new ClusterManager<EventMarker>(this, map);
@@ -395,6 +431,24 @@ public class MapsActivity extends ActionBarActivity implements
         }
         updateMarkers();
         updatePanelState();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        locationPermissionGranted = false;
+        Log.d(TAG, "==== STARTING PERMISSIONS CHECK. ====");
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationPermissionGranted = true;
+                    Log.d(TAG, "==== PERMISSIONS CHECK is TRUE. ====");
+                }
+            }
+        }
+        Log.d(TAG, "==== DONE PERMISSIONS CHECK. ====");
     }
 
     /**
