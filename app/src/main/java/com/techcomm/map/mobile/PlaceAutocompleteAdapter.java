@@ -187,7 +187,7 @@ public class PlaceAutocompleteAdapter
                 // Get the details of this prediction and copy it into a new PlaceAutocomplete
                 // object.
                 resultList.add(new PlaceAutocomplete(prediction.getPlaceId(),
-                        prediction.getDescription()));
+                        prediction.getFullText(null)));
             }
 
             // Release the buffer now that all data has been copied.
