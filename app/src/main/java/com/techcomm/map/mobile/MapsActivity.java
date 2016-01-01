@@ -16,29 +16,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.maps.android.clustering.ClusterManager;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.techcomm.map.mobile.data.EventData;
@@ -87,14 +82,6 @@ public class MapsActivity extends ActionBarActivity implements
 
     // An array of technical communication events and other items of interest.
     private final List<EventData> events = new ArrayList<>();
-
-    // Variables for the autocomplete search box.
-    private PlaceAutocompleteAdapter mAdapter;
-    private AutoCompleteTextView mAutocompleteView;
-
-    // A bounds defining the geographical boundaries of the greater Sydney area in Australia.
-    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
-            new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
 
     // A panel that displays details of a selected event or other item on the map.
     private SlidingUpPanelLayout slidingLayout;
@@ -223,24 +210,26 @@ public class MapsActivity extends ActionBarActivity implements
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
 
-        // Retrieve the AutoCompleteTextView that will display Place predictions.
-        mAutocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+        // Retrieve the autocomplete fragment from the layout, to display place predictions.
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
-        // Register a listener that receives callbacks when the user selects a predicted place.
-        mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
-
-        // Set up the adapter that will retrieve place predictions from the Google Places API.
-        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,
-                BOUNDS_GREATER_SYDNEY, null);
-        mAutocompleteView.setAdapter(mAdapter);
-
-        // Set up the button that clears the text in the autocomplete view.
-        Button clearButton = (Button) findViewById(R.id.button_clear);
-        clearButton.setOnClickListener(new View.OnClickListener() {
+        // Register a listener that receives callbacks when the user selects a place from
+        // the autocomplete search bar.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onClick(View v) {
-                mAutocompleteView.setText("");
+            public void onPlaceSelected(Place place) {
+
+                // Get the latitude and longitude of the selected place and pan the map
+                // to that location.
+                LatLng mLatLng = place.getLatLng();
+                Log.i(TAG, "Place: " + place.getName() + " at location: " + place.getLatLng());
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 14));
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.i(TAG, "An error occurred in Place Autocomplete: " + status);
             }
         });
 
@@ -357,8 +346,6 @@ public class MapsActivity extends ActionBarActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        // Connect the Google API client to the autocomplete adapter.
-        mAdapter.setGoogleApiClient(mGoogleApiClient);
     }
 
     /**
@@ -366,9 +353,6 @@ public class MapsActivity extends ActionBarActivity implements
      */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        // Disable API access in the adapter because the client was not initialised correctly.
-        mAdapter.setGoogleApiClient(null);
-        
         // Refer to the reference doc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
         Log.d(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
@@ -423,7 +407,7 @@ public class MapsActivity extends ActionBarActivity implements
         // the saved state, otherwise set the position to the current location of the device.
         // If the current location is unknown, use a default position (Sydney, Australia) and zoom.
         if (mSavedInstanceState != null && mSavedInstanceState.containsKey(KEY_CAMERA_POSITION)) {
-            CameraPosition cameraPosition = (CameraPosition) mSavedInstanceState
+            CameraPosition cameraPosition = mSavedInstanceState
                     .getParcelable(KEY_CAMERA_POSITION);
             map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         } else if (mCurrentLocation != null) {
@@ -643,59 +627,4 @@ public class MapsActivity extends ActionBarActivity implements
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         }
     }
-
-    /**
-     * Handles selections from the AutoCompleteTextView that displays place predictions.
-     * Gets the latitude/longitude of the selected item and pans the map to that location.
-     */
-    private AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            // Retrieve the place ID of the selected item from the adapter.
-            // The adapter stores each place prediction in a PlaceAutocomplete object, from which we
-            // read the place ID.
-            final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
-
-            final String placeId = String.valueOf(item.placeId);
-            Log.d(TAG, "Autocomplete item selected: " + item.description);
-
-            // Send a request to the Google Places API to retrieve a Place object containing
-            // additional details about the place.
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(mGoogleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
-            Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
-                    Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Called getPlaceById to get Place details for " + item.placeId);
-        }
-    };
-
-    /**
-     * Callback for results from a Google Places API details request. Gets the latitude/longitude
-     * for the first result and pans the map to that location.
-     */
-    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                // Request did not complete successfully
-                Log.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
-                places.release();
-                return;
-            }
-            // Get the Place object from the buffer.
-            final Place place = places.get(0);
-
-            // Get the latitude and longitude of the selected place.
-            LatLng mLatLng = place.getLatLng();
-
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 14));
-
-            places.release();
-        }
-    };
 }

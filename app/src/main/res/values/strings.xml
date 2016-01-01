@@ -4,9 +4,6 @@
     <string name="layers_button">Event types</string>
     <string name="action_layers">Select event types</string>
     <string name="layers_dialog">Select event types</string>
-    <string name="autocomplete_hint">Enter a place name or address</string>
-    <string name="selected_place">Last selected place:</string>
-    <string name="clear_text">x</string>
     <string name="action_refresh">Refresh</string>
     <string name="title_activity_add_event">AddEvent</string>
     <string name="action_settings">Settings</string>
