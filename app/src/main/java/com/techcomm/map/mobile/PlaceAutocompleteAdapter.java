@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class PlaceAutocompleteAdapter
         extends ArrayAdapter<PlaceAutocompleteAdapter.PlaceAutocomplete> implements Filterable {
 
-    private static final String TAG = "PlaceAutocompleteAdapter";
+    private static final String TAG = "PlaceAutocompleteAdaptr";
     /**
      * Current results returned by this adapter.
      */
