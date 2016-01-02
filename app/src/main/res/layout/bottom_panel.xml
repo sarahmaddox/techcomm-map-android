@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Event name"
+        android:text="@string/display_event_name"
         android:id="@+id/event_name"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Event type"
+        android:text="@string/display_event_type"
         android:id="@+id/event_type"
         android:layout_below="@+id/event_name"
         android:layout_alignParentLeft="true"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Event description"
+            android:text="@string/display_event_description"
             android:textStyle="italic"
             android:id="@+id/event_description"
             />
@@ -60,13 +60,14 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/ic_website"/>
+                android:src="@mipmap/ic_website"
+                android:contentDescription="@string/display_event_website"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Event website"
+                android:text="@string/display_event_website"
                 android:id="@+id/event_website"
                 android:layout_gravity="center_vertical"
                 android:autoLink="web"
@@ -80,12 +81,13 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/ic_place"/>
+                android:src="@mipmap/ic_place"
+                android:contentDescription="@string/display_event_address"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Event address"
+                android:text="@string/display_event_address"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/event_address" />
@@ -98,12 +100,13 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/ic_clock"/>
+                android:src="@mipmap/ic_clock"
+                android:contentDescription="@string/display_event_dates"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Event dates"
+                android:text="@string/display_event_dates"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/event_dates" />
