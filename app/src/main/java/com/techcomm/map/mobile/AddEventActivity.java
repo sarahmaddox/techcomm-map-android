@@ -1,8 +1,6 @@
 package com.techcomm.map.mobile;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -56,9 +54,15 @@ public class AddEventActivity extends FragmentActivity
 
     // An identifier for the place picker request.
     private static final int PLACE_PICKER_REQUEST = 1;
+
     private Place mPickedPlace;
     private String mPickedType;
     private int mPickedTypePos = 0;
+    private String mName;
+    private String mDescription;
+    private String mWebsite;
+    private String mStartDate;
+    private String mEndDate;
 
     // Annotations on input fields are used for validation.
     @Select
@@ -167,6 +171,12 @@ public class AddEventActivity extends FragmentActivity
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
+                mName = ((EditText) findViewById(R.id.name)).getText().toString();
+                mDescription = ((EditText) findViewById(R.id.description)).getText().toString();
+                mWebsite = ((EditText) findViewById(R.id.website)).getText().toString();
+                mStartDate = ((EditText) findViewById(R.id.start_date)).getText().toString();
+                mEndDate = ((EditText) findViewById(R.id.end_date)).getText().toString();
+
                 new SubmitTask().execute();
             }
 
@@ -264,22 +274,17 @@ public class AddEventActivity extends FragmentActivity
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(FORM_URL);
 
-            String name = ((EditText) findViewById(R.id.name)).getText().toString();
-            String description = ((EditText) findViewById(R.id.description)).getText().toString();
-            String website = ((EditText) findViewById(R.id.website)).getText().toString();
-            String startDate = ((EditText) findViewById(R.id.start_date)).getText().toString();
-            String endDate = ((EditText) findViewById(R.id.end_date)).getText().toString();
             String address = mPickedPlace.getAddress().toString();
             String latitude = Double.toString(mPickedPlace.getLatLng().latitude);
             String longitude = Double.toString(mPickedPlace.getLatLng().longitude);
 
             List<BasicNameValuePair> results = new ArrayList<BasicNameValuePair>();
             results.add(new BasicNameValuePair("entry.149038398", mPickedType));
-            results.add(new BasicNameValuePair("entry.313069715", name));
-            results.add(new BasicNameValuePair("entry.1612579277", description));
-            results.add(new BasicNameValuePair("entry.441807608", website));
-            results.add(new BasicNameValuePair("entry.818747834", startDate));
-            results.add(new BasicNameValuePair("entry.338417099", endDate));
+            results.add(new BasicNameValuePair("entry.313069715", mName));
+            results.add(new BasicNameValuePair("entry.1612579277", mDescription));
+            results.add(new BasicNameValuePair("entry.441807608", mWebsite));
+            results.add(new BasicNameValuePair("entry.818747834", mStartDate));
+            results.add(new BasicNameValuePair("entry.338417099", mEndDate));
             results.add(new BasicNameValuePair("entry.1311795500", address));
             results.add(new BasicNameValuePair("entry.1041158190", latitude));
             results.add(new BasicNameValuePair("entry.1989319686", longitude));
