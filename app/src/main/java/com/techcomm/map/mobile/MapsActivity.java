@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -163,7 +164,7 @@ public class MapsActivity extends ActionBarActivity implements
             }
 
             int padding = findViewById(R.id.map).getBottom() - view.getTop();
-                    Log.d(TAG, new Float(padding).toString());
+            Log.d(TAG, Float.toString(padding));
             previousZoomLevel = map.getCameraPosition().zoom;
             previousLatLng = map.getCameraPosition().target;
             map.getUiSettings().setAllGesturesEnabled(false);
@@ -352,7 +353,7 @@ public class MapsActivity extends ActionBarActivity implements
      * Handles failure to connect to the Google Play services client.
      */
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
         // Refer to the reference doc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
         Log.d(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
@@ -424,7 +425,7 @@ public class MapsActivity extends ActionBarActivity implements
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         locationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
