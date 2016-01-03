@@ -53,10 +53,6 @@ class DataFetcherTask extends AsyncTask<Void, Void, Void> {
                     inputStreamString.length() - 1);
             JSONArray result = new JSONArray(strippedString);
 
-            if (result == null) {
-                return null;
-            }
-
             // Realm is a mobile database - a replacement for SQLite. See realm.io.
             Realm realm = Realm.getInstance(context);
             realm.beginTransaction();
