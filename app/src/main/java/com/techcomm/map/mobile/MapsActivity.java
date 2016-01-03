@@ -154,6 +154,10 @@ public class MapsActivity extends ActionBarActivity implements
                 // Already zoomed in. Return.
                 return;
             }
+            if (currentSelectedEventId == null) {
+                Log.w(TAG, "Event ID was null when we expanded the panel");
+                return;
+            }
             EventData event = realm
                     .where(EventData.class)
                     .equalTo("localId", currentSelectedEventId)
