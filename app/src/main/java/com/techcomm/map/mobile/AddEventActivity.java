@@ -207,9 +207,9 @@ public class AddEventActivity extends FragmentActivity
                 try {
                     startActivityForResult(builder.build(AddEventActivity.this), PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
-                    Log.e(TAG, "An error has occurred", e);
+                    Log.e(TAG, "Play services error when displaying Place Picker", e);
                 } catch (GooglePlayServicesNotAvailableException e) {
-                    Log.e(TAG, "An error has occurred", e);
+                    Log.e(TAG, "Play services error when displaying Place Picker", e);
                 }
             }
         });
@@ -293,17 +293,14 @@ public class AddEventActivity extends FragmentActivity
             try {
                 post.setEntity(new UrlEncodedFormEntity(results));
             } catch (UnsupportedEncodingException e) {
-                // Auto-generated catch block
-                Log.e(TAG, "An error has occurred", e);
+                Log.e(TAG, "Encoding error when submitting form", e);
             }
             try {
                 return client.execute(post);
             } catch (ClientProtocolException e) {
-                // Auto-generated catch block
-                Log.e(TAG, "An error has occurred", e);
+                Log.e(TAG, "Client protocol error when submitting form.", e);
             } catch (IOException e) {
-                // Auto-generated catch block
-                Log.e(TAG, "An error has occurred", e);
+                Log.e(TAG, "IO exception error when submitting form", e);
             }
             return null;
         }
