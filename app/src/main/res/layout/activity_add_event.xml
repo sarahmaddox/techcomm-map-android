@@ -10,9 +10,7 @@
         android:padding="20dp"
         >
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/AddEventLabel"
             android:text="@string/add_event_type"
             />
 
@@ -23,15 +21,11 @@
             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/AddEventLabel"
             android:text="@string/add_event_name"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            style="@style/AddEventSublabel"
             android:text="@string/add_event_name_help"
             />
         <EditText
@@ -41,9 +35,7 @@
             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/AddEventLabel"
             android:text="@string/add_event_description"
             />
         <EditText
@@ -55,15 +47,11 @@
             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/AddEventLabel"
             android:text="@string/add_event_website"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            style="@style/AddEventSublabel"
             android:text="@string/add_event_website_help"
             />
         <EditText
@@ -74,9 +62,7 @@
             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/AddEventLabel"
             android:text="@string/add_event_start_date"
             />
         <EditText
@@ -86,9 +72,7 @@
             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/AddEventLabel"
             android:text="@string/add_event_end_date"
             />
         <EditText
