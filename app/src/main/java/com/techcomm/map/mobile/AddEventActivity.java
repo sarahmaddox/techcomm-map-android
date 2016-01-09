@@ -37,6 +37,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -278,6 +280,25 @@ public class AddEventActivity extends ActionBarActivity
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(FORM_URL);
 
+
+            // Convert input dates from dd mm yyyy to dd month yyyy
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd MM yyyy");
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd MMM yyyy");
+            String startDate;
+            String endDate;
+            try {
+                startDate = dateFormat2.format(dateFormat1.parse(mStartDate));
+            } catch (ParseException e) {
+                Log.e(TAG, "Error when converting start date. Reverted to input format.", e);
+                startDate = mStartDate;
+            }
+            try {
+                endDate = dateFormat2.format(dateFormat1.parse(mEndDate));
+            } catch (ParseException e) {
+                Log.e(TAG, "Error when converting end date. Reverted to input format.", e);
+                endDate = mEndDate;
+            }
+
             String address = mPickedPlace.getAddress().toString();
             String latitude = Double.toString(mPickedPlace.getLatLng().latitude);
             String longitude = Double.toString(mPickedPlace.getLatLng().longitude);
@@ -287,8 +308,8 @@ public class AddEventActivity extends ActionBarActivity
             results.add(new BasicNameValuePair("entry.313069715", mName));
             results.add(new BasicNameValuePair("entry.1612579277", mDescription));
             results.add(new BasicNameValuePair("entry.441807608", mWebsite));
-            results.add(new BasicNameValuePair("entry.818747834", mStartDate));
-            results.add(new BasicNameValuePair("entry.338417099", mEndDate));
+            results.add(new BasicNameValuePair("entry.818747834", startDate));
+            results.add(new BasicNameValuePair("entry.338417099", endDate));
             results.add(new BasicNameValuePair("entry.1311795500", address));
             results.add(new BasicNameValuePair("entry.1041158190", latitude));
             results.add(new BasicNameValuePair("entry.1989319686", longitude));
