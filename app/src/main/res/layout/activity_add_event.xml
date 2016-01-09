@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".AddEventActivity"
     >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
         >
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/add_event_toolbar"
+            style="@style/AppToolbar" />
         <TextView
             style="@style/AddEventLabel"
             android:text="@string/add_event_type"
@@ -42,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/description"
-            android:minLines="5"
+            android:minLines="2"
             android:maxLines="10"
             />
 

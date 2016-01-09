@@ -4,7 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,7 +45,7 @@ import java.util.List;
  * A form allowing the user to add an event to the map.
  * Uses a Google Form to input and submit items. The data source is a Google Sheet.
  */
-public class AddEventActivity extends FragmentActivity
+public class AddEventActivity extends ActionBarActivity
         implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddEventActivity.class.getSimpleName();
@@ -94,6 +94,10 @@ public class AddEventActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+        // Add the toolbar at the top of the screen.
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)(findViewById(R.id.add_event_toolbar));
+        setSupportActionBar(toolbar);
 
         typeSpinner = (Spinner) findViewById(R.id.type);
         nameEditText = (EditText) findViewById(R.id.name);
