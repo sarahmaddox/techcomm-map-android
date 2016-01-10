@@ -17,7 +17,7 @@
     <string name="add_event_start_date">Start date</string>
     <string name="add_event_end_date">End date</string>
     <string name="add_event_pick_place">Pick a place *</string>
-    <string name="add_event_no_place_selected">No place selected. Please pick one!</string>
+    <string name="add_event_no_place_selected">No place selected. Please pick one.</string>
     <string name="add_event_submit">Submit</string>
     <string name="add_event_missing_place">Please pick the place where the event is
         happening.</string>

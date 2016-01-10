@@ -35,27 +35,54 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingStart">8dp</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="AboutH2" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">8dp</item>
+        <item name="android:paddingStart">8dp</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="AboutText" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">8dp</item>
     </style>
 
     <!-- Add event screen. -->
     <style name="AddEventLabel" parent="@android:style/TextAppearance.Large">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:paddingStart">24dp</item>
     </style>
     <style name="AddEventSublabel" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">24dp</item>
+    </style>
+    <style name="AddEventPlaceText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="AddEventEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">24dp</item>
+    </style>
+    <style name="AddEventSpinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">24dp</item>
+    </style>
+    <style name="AddEventButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:paddingStart">24dp</item>
     </style>
 </resources>
