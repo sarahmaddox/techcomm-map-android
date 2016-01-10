@@ -380,6 +380,8 @@ public class MapsActivity extends ActionBarActivity implements
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
+        // Turn off map toolbar, because it doesn't play nicely with marker clustering.
+        map.getUiSettings().setMapToolbarEnabled(false);
         // Request location permissions, so that we can get the location of the
         // device. The result of the permissions request is handled by a callback,
         // onRequestPermissionsResult.
