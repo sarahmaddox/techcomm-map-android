@@ -224,7 +224,8 @@ public class MapsActivity extends ActionBarActivity implements
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-
+                // Close the place information panel, because it's showing the previous place.
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 // Get the latitude and longitude of the selected place and pan the map
                 // to that location.
                 LatLng mLatLng = place.getLatLng();
@@ -464,12 +465,15 @@ public class MapsActivity extends ActionBarActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 refreshData();
                 return true;
             case R.id.action_settings:
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 openLayersDialog();
                 return true;
             case R.id.action_add_event:
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 openEventForm();
                 return true;
             case R.id.action_about:
