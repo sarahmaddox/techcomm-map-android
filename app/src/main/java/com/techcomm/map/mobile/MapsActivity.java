@@ -429,6 +429,9 @@ public class MapsActivity extends ActionBarActivity implements
         updatePanelState();
     }
 
+    /**
+     * Handles the result of the request for location permissions.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
@@ -446,7 +449,7 @@ public class MapsActivity extends ActionBarActivity implements
 
     /**
      * Initializes the options menu.
-      */
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
