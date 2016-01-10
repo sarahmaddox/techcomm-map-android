@@ -17,7 +17,7 @@
         <item name="colorAccent">#2196F3</item>
         <!-- You can also set colorControlNormal, colorControlActivated
              colorControlHighlight and colorSwitchThumbNormal. -->
-        <item name="android:colorButtonNormal">#2196F3</item>
+        <item name="colorButtonNormal">#2196F3</item>
     </style>
 
     <!-- Application toolbar -->
