@@ -1,7 +1,7 @@
 package com.techcomm.map.mobile;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
@@ -10,7 +10,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 /**
  * Displays an "About" screen describing the app.
  */
-public class AboutActivity extends ActionBarActivity {
+public class AboutActivity extends AppCompatActivity {
 
     /**
      * Initializes the "about" activity.

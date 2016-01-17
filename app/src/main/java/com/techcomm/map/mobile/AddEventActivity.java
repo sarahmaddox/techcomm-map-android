@@ -4,7 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,7 +47,7 @@ import java.util.List;
  * A form allowing the user to add an event to the map.
  * Uses a Google Form to input and submit items. The data source is a Google Sheet.
  */
-public class AddEventActivity extends ActionBarActivity
+public class AddEventActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddEventActivity.class.getSimpleName();
