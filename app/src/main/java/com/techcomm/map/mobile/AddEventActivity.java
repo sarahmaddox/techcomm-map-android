@@ -336,18 +336,6 @@ public class AddEventActivity extends AppCompatActivity
             String latitude = Double.toString(mPickedPlace.getLatLng().latitude);
             String longitude = Double.toString(mPickedPlace.getLatLng().longitude);
 
-            // OLD List<Pair> output = new ArrayList<>();
-            // OLD output.add(new Pair<String, String>("entry.149038398", mPickedType));
-            // OLD output.add(new Pair<String, String>("entry.313069715", mName));
-            // OLD output.add(new Pair<String, String>("entry.1612579277", mDescription));
-            // OLD output.add(new Pair<String, String>("entry.441807608", mWebsite));
-            // OLD output.add(new Pair<String, String>("entry.818747834", startDate));
-            // OLD output.add(new Pair<String, String>("entry.338417099", endDate));
-            // OLD output.add(new Pair<String, String>("entry.1311795500", address));
-            // OLD output.add(new Pair<String, String>("entry.1041158190", latitude));
-            // OLD output.add(new Pair<String, String>("entry.1989319686", longitude));
-            // OLD output.add(new Pair<String, String>("fbzx", "123456789123"));
-
             String output = "entry.149038398" + "=" + mPickedType +
                     "&" + "entry.313069715" + "=" + mName +
                     "&" + "entry.1612579277" + "=" + mDescription +
@@ -359,16 +347,6 @@ public class AddEventActivity extends AppCompatActivity
                     "&" + "entry.1989319686" + "=" + longitude +
                     "&" + "fbzx" + "=" + "123456789123";
 
-            // OLD String output = "entry.149038398:" + mPickedType + "," +
-            // OLD        "entry.313069715:" + mName + "," +
-            // OLD        "entry.1612579277:" + mDescription + "," +
-            // OLD        "entry.441807608:" + mWebsite + "," +
-            // OLD        "entry.818747834:" + startDate + "," +
-            // OLD        "entry.338417099:" + endDate + "," +
-            // OLD        "entry.1311795500:" + address + "," +
-            // OLD        "entry.1041158190:" + latitude + "," +
-            // OLD        "entry.1989319686:" + longitude + "," +
-            // OLD        "fbzx:" + "123456789123";
             try {
                 out.write(output.getBytes());
 
