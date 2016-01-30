@@ -26,20 +26,14 @@ import com.mobsandgeeks.saripaar.annotation.Pattern;
 import com.mobsandgeeks.saripaar.annotation.Select;
 import com.mobsandgeeks.saripaar.annotation.Url;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -213,9 +207,9 @@ public class AddEventActivity extends AppCompatActivity
                 try {
                     startActivityForResult(builder.build(AddEventActivity.this), PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
-                    Log.e(TAG, "Play services error when displaying Place Picker", e);
+                    Log.e(TAG, "Play services repairable exception when displaying Place Picker", e);
                 } catch (GooglePlayServicesNotAvailableException e) {
-                    Log.e(TAG, "Play services error when displaying Place Picker", e);
+                    Log.e(TAG, "Play services not available when displaying Place Picker", e);
                 }
             }
         });
@@ -273,13 +267,44 @@ public class AddEventActivity extends AppCompatActivity
     /**
      * Submits the form data to the spreadsheet which is the data source.
      */
-    private class SubmitTask extends AsyncTask<Void, Void, HttpResponse> {
+    private class SubmitTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override
-        protected HttpResponse doInBackground(Void... params) {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(FORM_URL);
+        protected Boolean doInBackground(Void... params) {
+            try {
+                URL url = new URL(FORM_URL);
+                try {
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setDoOutput(true);
+                    urlConnection.setChunkedStreamingMode(0);
 
+                    try {
+                        OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+                        if (writeStream(out)) {
+                            int responseCode = urlConnection.getResponseCode();
+                            Log.d(TAG, "URL connection response code from form submission: " +
+                                    responseCode);
+                            urlConnection.disconnect();
+                            return true;
+                        } else {
+                            urlConnection.disconnect();
+                            return false;
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "IO exception when getting bufferred output stream for form data", e);
+                        return false;
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "IO exception when opening output stream for form data", e);
+                    return false;
+                }
+            } catch (MalformedURLException e) {
+                Log.e(TAG, "Malformed URL exception when opening output stream for form data", e);
+                return false;
+            }
+        }
+
+        private Boolean writeStream(OutputStream out){
 
             // Convert input dates from dd mm yyyy to dd month yyyy
             SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd MM yyyy");
@@ -287,13 +312,21 @@ public class AddEventActivity extends AppCompatActivity
             String startDate;
             String endDate;
             try {
-                startDate = dateFormat2.format(dateFormat1.parse(mStartDate));
+                if (mStartDate.equals("")) {
+                    startDate = "";
+                } else {
+                    startDate = dateFormat2.format(dateFormat1.parse(mStartDate));
+                }
             } catch (ParseException e) {
                 Log.e(TAG, "Error when converting start date. Reverted to input format.", e);
                 startDate = mStartDate;
             }
             try {
-                endDate = dateFormat2.format(dateFormat1.parse(mEndDate));
+                if (mEndDate.equals("")) {
+                    endDate = "";
+                } else{
+                    endDate = dateFormat2.format(dateFormat1.parse(mEndDate));
+                }
             } catch (ParseException e) {
                 Log.e(TAG, "Error when converting end date. Reverted to input format.", e);
                 endDate = mEndDate;
@@ -303,41 +336,64 @@ public class AddEventActivity extends AppCompatActivity
             String latitude = Double.toString(mPickedPlace.getLatLng().latitude);
             String longitude = Double.toString(mPickedPlace.getLatLng().longitude);
 
-            List<BasicNameValuePair> results = new ArrayList<BasicNameValuePair>();
-            results.add(new BasicNameValuePair("entry.149038398", mPickedType));
-            results.add(new BasicNameValuePair("entry.313069715", mName));
-            results.add(new BasicNameValuePair("entry.1612579277", mDescription));
-            results.add(new BasicNameValuePair("entry.441807608", mWebsite));
-            results.add(new BasicNameValuePair("entry.818747834", startDate));
-            results.add(new BasicNameValuePair("entry.338417099", endDate));
-            results.add(new BasicNameValuePair("entry.1311795500", address));
-            results.add(new BasicNameValuePair("entry.1041158190", latitude));
-            results.add(new BasicNameValuePair("entry.1989319686", longitude));
-            results.add(new BasicNameValuePair("fbzx", "123456789123"));
+            // OLD List<Pair> output = new ArrayList<>();
+            // OLD output.add(new Pair<String, String>("entry.149038398", mPickedType));
+            // OLD output.add(new Pair<String, String>("entry.313069715", mName));
+            // OLD output.add(new Pair<String, String>("entry.1612579277", mDescription));
+            // OLD output.add(new Pair<String, String>("entry.441807608", mWebsite));
+            // OLD output.add(new Pair<String, String>("entry.818747834", startDate));
+            // OLD output.add(new Pair<String, String>("entry.338417099", endDate));
+            // OLD output.add(new Pair<String, String>("entry.1311795500", address));
+            // OLD output.add(new Pair<String, String>("entry.1041158190", latitude));
+            // OLD output.add(new Pair<String, String>("entry.1989319686", longitude));
+            // OLD output.add(new Pair<String, String>("fbzx", "123456789123"));
 
+            String output = "entry.149038398" + "=" + mPickedType +
+                    "&" + "entry.313069715" + "=" + mName +
+                    "&" + "entry.1612579277" + "=" + mDescription +
+                    "&" + "entry.441807608" + "=" + mWebsite +
+                    "&" + "entry.818747834" + "=" + startDate +
+                    "&" + "entry.338417099" + "=" + endDate +
+                    "&" + "entry.1311795500" + "=" + address +
+                    "&" + "entry.1041158190" + "=" + latitude +
+                    "&" + "entry.1989319686" + "=" + longitude +
+                    "&" + "fbzx" + "=" + "123456789123";
+
+            // OLD String output = "entry.149038398:" + mPickedType + "," +
+            // OLD        "entry.313069715:" + mName + "," +
+            // OLD        "entry.1612579277:" + mDescription + "," +
+            // OLD        "entry.441807608:" + mWebsite + "," +
+            // OLD        "entry.818747834:" + startDate + "," +
+            // OLD        "entry.338417099:" + endDate + "," +
+            // OLD        "entry.1311795500:" + address + "," +
+            // OLD        "entry.1041158190:" + latitude + "," +
+            // OLD        "entry.1989319686:" + longitude + "," +
+            // OLD        "fbzx:" + "123456789123";
             try {
-                post.setEntity(new UrlEncodedFormEntity(results));
-            } catch (UnsupportedEncodingException e) {
-                Log.e(TAG, "Encoding error when submitting form", e);
-            }
-            try {
-                return client.execute(post);
-            } catch (ClientProtocolException e) {
-                Log.e(TAG, "Client protocol error when submitting form.", e);
+                out.write(output.getBytes());
+
+                try {
+                    out.flush();
+                    out.close();
+                    return true;
+                } catch (IOException e) {
+                    Log.e(TAG, "IO exception when flushing output stream.", e);
+                    return false;
+                }
             } catch (IOException e) {
-                Log.e(TAG, "IO exception error when submitting form", e);
+                Log.e(TAG, "IO exception when writing form output.", e);
+                return false;
             }
-            return null;
         }
 
         /**
          * Displays a message reporting the success or failure of the form submission.
          */
         @Override
-        protected void onPostExecute(HttpResponse response) {
+        protected void onPostExecute(Boolean response) {
             super.onPostExecute(response);
 
-            if (response == null || response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            if (!response) {
                 Toast.makeText(AddEventActivity.this, R.string.add_event_error,
                         Toast.LENGTH_LONG).show();
                 return;

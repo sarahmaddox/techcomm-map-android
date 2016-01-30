@@ -24,8 +24,7 @@
     <string name="add_event_missing_type">Please select an event type.</string>
     <string name="add_event_success">Thanks for your submission! It will appear on the map after
         moderation.</string>
-    <string name="add_event_error">There was an error submitting your input. Did you specify all the
-        fields?</string>
+    <string name="add_event_error">Sorry, there was an error submitting your input. Please try again.</string>
     <string-array name="add_types_array">
         <item>Select a type…</item>
         <item>Business</item>
