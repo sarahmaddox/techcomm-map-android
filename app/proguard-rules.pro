@@ -25,3 +25,11 @@
 # From https://github.com/ragunathjawahar/android-saripaar.
 -keep class com.mobsandgeeks.saripaar.** {*;}
 -keep class commons.validator.routines.** {*;}
+
+# Disable logging in release build.
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** w(...);
+    public static *** v(...);
+    public static *** i(...);
+}

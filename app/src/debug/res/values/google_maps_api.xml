@@ -1,5 +1,5 @@
 <resources>
-    <!-- Google Maps API key. -->
+    <!-- Google Maps API key (debug). -->
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
         AIzaSyB7YOvSd1Wu1orWg1DItLXw8R1ArKklLiU
     </string>
