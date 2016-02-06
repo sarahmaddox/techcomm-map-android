@@ -1,6 +1,6 @@
 <resources>
     <!-- Google Maps API key (release). -->
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
-        YOUR_KEY_HERE
+        AIzaSyC2LhmUgCETavBbjJtkhxAsfPFmMT-3WBw
     </string>
 </resources>
