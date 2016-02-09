@@ -4,3 +4,4 @@
 * Francois Wouts, https://github.com/fwouts
 * Jamie McCloskey, https://github.com/xrymbos
 * Brett Morgan, https://github.com/domesticmouse
+* Peter Maddox, https://github.com/peter-maddox
