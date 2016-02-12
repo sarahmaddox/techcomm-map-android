@@ -26,4 +26,4 @@ To contribute to the code for the Tech Comm on a Map **web page**, head on over 
 
 ## Disclaimer
 
-Although I work at Google, this app is not an official Google product.
+Although I work at Google, this app is not a Google product.
