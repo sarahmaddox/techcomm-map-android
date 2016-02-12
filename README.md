@@ -2,8 +2,11 @@
 
 Tech Comm on a Map puts technical communication events and other items of interest onto an
 interactive map, together with the data and functionality provided by Google Maps. It's available as
-a [web page](http://sarahmaddox.github.io/techcomm-map/) and as an Android app. This repo contains
+as [an Android app](https://play.google.com/store/apps/details?id=com.techcomm.map.mobile)
+and also as a [web page](http://sarahmaddox.github.io/techcomm-map/). This repo contains
 the code for the Android app.
+
+<a href="https://play.google.com/store/apps/details?id=com.techcomm.map.mobile&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=PartBadge&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" width="180px" /></a>
 
 Read more about the map and the project at [ffeathers
 blog](https://ffeathers.wordpress.com/tech-comm-on-a-map/).
