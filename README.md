@@ -13,7 +13,9 @@ blog](https://ffeathers.wordpress.com/tech-comm-on-a-map/).
 
 ## Contributing
 
-You can update the data on the map (events, tech comm businesses, etc) by filling in the details on
+You can update the data on the map (events, tech comm businesses, etc) by using the
+**Add event** option in the Android app,
+or by filling in the details on
 [this web form](https://docs.google.com/forms/d/1uIEpAu0vpiDwNqwQcr-912TD1_nG_PND9J3NDCPvEXI/viewform?usp=send_form).
 
 To contribute to the code for the **Android app**, please read the LICENSE file in this
