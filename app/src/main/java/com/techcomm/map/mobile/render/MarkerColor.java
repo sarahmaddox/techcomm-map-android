@@ -6,18 +6,15 @@ import com.techcomm.map.mobile.data.EventData;
  * The color of an event marker on the map, as determined by event type.
  */
 public class MarkerColor {
-    private static final MarkerColor CONFERENCES_2014 = new MarkerColor(0xff808080, 0xff404040);
-    private static final MarkerColor CONFERENCES_2015 = new MarkerColor(0xffc077f1, 0xffa347e1);
+    private static final MarkerColor CONFERENCES_2017= new MarkerColor(0xff808080, 0xff404040);
     private static final MarkerColor CONFERENCES_2016 = new MarkerColor(0xffc077f1, 0xffa347e1);
     private static final MarkerColor SOCIETIES = new MarkerColor(0xfff6bb2e, 0xffee7b0c);
     private static final MarkerColor GROUPS = new MarkerColor(0xffee4bf3, 0xffff00ff);
     private static final MarkerColor BUSINESSES = new MarkerColor(0xff1ab61a, 0xff008000);
     private static final MarkerColor COURSES = new MarkerColor(0xff017cff, 0xff0000ff);
     private static final MarkerColor OTHER = new MarkerColor(0xff01e2ff, 0xff01c4ff);
-    private static final MarkerColor CONFERENCES_2014_HIGHLIGHT =
+    private static final MarkerColor CONFERENCES_2017_HIGHLIGHT =
             new MarkerColor(0xff808080, 0xffffffff);
-    private static final MarkerColor CONFERENCES_2015_HIGHLIGHT =
-            new MarkerColor(0xffc077f1, 0xffffffff);
     private static final MarkerColor CONFERENCES_2016_HIGHLIGHT =
             new MarkerColor(0xffc077f1, 0xffffffff);
     private static final MarkerColor SOCIETIES_HIGHLIGHT = new MarkerColor(0xfff6bb2e, 0xffffffff);
@@ -35,10 +32,8 @@ public class MarkerColor {
     }
 
     public static MarkerColor getMarkerColor(EventData event, boolean highlight) {
-        if ("Conference 2014".equals(event.getType())) {
-            return highlight ? CONFERENCES_2014_HIGHLIGHT : CONFERENCES_2014;
-        } else if ("Conference 2015".equals(event.getType())) {
-            return highlight ? CONFERENCES_2015_HIGHLIGHT : CONFERENCES_2015;
+        if ("Conference 2017".equals(event.getType())) {
+            return highlight ? CONFERENCES_2017_HIGHLIGHT : CONFERENCES_2017;
         } else if ("Conference 2016".equals(event.getType())) {
             return highlight ? CONFERENCES_2016_HIGHLIGHT : CONFERENCES_2016;
         } else if ("Society".equals(event.getType())) {
