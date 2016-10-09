@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -67,6 +68,10 @@ public class MapsActivity extends AppCompatActivity implements
     // The geographical location where the device is currently located.
     protected Location mCurrentLocation;
 
+    // Data passed via the intent.
+    LatLng mIntentLocation;
+    String mIntentZoom;
+
     // A cluster manager for the event markers.
     private ClusterManager<EventMarker> mClusterManager;
     private ClickListener clickListener;
@@ -76,7 +81,7 @@ public class MapsActivity extends AppCompatActivity implements
 
     private static final String TAG = MapsActivity.class.getSimpleName();
 
-    // Variables to manage the behavior of the map.
+    // Variables to manage the behaviour of the map.
     private final Set<String> enabledTypes = new HashSet<>();
     private boolean initializedTypes = false;
     private boolean isZoomedIn = false;
@@ -250,6 +255,17 @@ public class MapsActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         mGoogleApiClient.connect();
+
+        // Handle the case where the activity was called by an intent.
+        // The intent data should contain the latitude and longitude for centering the map
+        // and a zoom factor, formatted as URL parameters.
+        Uri mUri = this.getIntent().getData();
+        if (mUri != null && mUri.isHierarchical()) {
+            mIntentLocation = new LatLng(Double.parseDouble(mUri.getQueryParameter("lat")),
+                    Double.parseDouble(mUri.getQueryParameter("lng")));
+            mIntentZoom = mUri.getQueryParameter("zoom");
+            Log.i("Tech Comm Map", "Intent found - zoom is " + mIntentZoom);
+        }
     }
 
     /**
@@ -412,12 +428,16 @@ public class MapsActivity extends AppCompatActivity implements
         mClusterManager.setOnClusterItemClickListener(clickListener);
 
         // Set the camera position. If the previous state was saved, set the position to
-        // the saved state, otherwise set the position to the current location of the device.
+        // the saved state. Otherwise, if the app was opened via an intent, use the location and
+        // zoom pass with the intent. Otherwise set the position to the device's current location.
         // If the current location is unknown, use a default position (Sydney, Australia) and zoom.
         if (mSavedInstanceState != null && mSavedInstanceState.containsKey(KEY_CAMERA_POSITION)) {
             CameraPosition cameraPosition = mSavedInstanceState
                     .getParcelable(KEY_CAMERA_POSITION);
             map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        } else if (mIntentLocation != null && mIntentZoom != null) {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(mIntentLocation,
+                    Float.parseFloat(mIntentZoom)));
         } else if (mCurrentLocation != null) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(mCurrentLocation.getLatitude(),
