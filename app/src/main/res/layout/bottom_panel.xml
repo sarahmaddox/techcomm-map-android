@@ -111,5 +111,16 @@
                 android:layout_marginLeft="20dp"
                 android:id="@+id/event_dates" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp">
+            <Button
+                style="@style/ShareButton"
+                android:text="@string/share_button"
+                android:id="@+id/share_button"
+                />
+        </LinearLayout>
      </LinearLayout>
 </RelativeLayout>

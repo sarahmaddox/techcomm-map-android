@@ -250,6 +250,22 @@ public class MapsActivity extends AppCompatActivity implements
         SlideListener slideListener = new SlideListener();
         slidingLayout.setPanelSlideListener(slideListener);
 
+        /**
+         * When the user clicks the share button, creates an intent and sends it to
+         * a chooser to that the user can choose how to share the event.
+         */
+        (findViewById(R.id.share_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Tech Comm Map", "Share button clicked. Creating intent.");
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text));
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_message)));
+            }
+        });
+
         // Add the toolbar at the top of the screen.
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)(findViewById(R.id.toolbar));
         setSupportActionBar(toolbar);

@@ -57,4 +57,7 @@
     <string name="saripaar_heading">android-saripaar</string>
     <string name="saripaar_text">Copyright 2012 - 2015 Mobs &amp; Geeks. Licensed under the Apache
         License, Version 2.0.</string>
+    <string name="share_button">Share</string>
+    <string name="share_text">View Tech Comm on a Map on the web or in the Android app.</string>
+    <string name="share_message">Pick an app to share this event with your friends.</string>
 </resources>
