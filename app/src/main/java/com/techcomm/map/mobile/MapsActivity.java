@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,20 @@ import com.techcomm.map.mobile.data.EventData;
 import com.techcomm.map.mobile.render.ClusterRenderer;
 import com.techcomm.map.mobile.render.EventMarker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +86,7 @@ public class MapsActivity extends AppCompatActivity implements
     // Data passed via the intent.
     LatLng mIntentLocation;
     String mIntentZoom;
+    private String mShareUrl;
 
     // A cluster manager for the event markers.
     private ClusterManager<EventMarker> mClusterManager;
@@ -257,12 +273,16 @@ public class MapsActivity extends AppCompatActivity implements
         (findViewById(R.id.share_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Tech Comm Map", "Share button clicked. Creating intent.");
+                // Shorten the URL for the event that the user is sharing.
+                new GetShortUrlTask().execute();
+                // Create the intent and start the chooser.
+                Log.i(TAG, "Share button clicked. Creating intent.");
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text));
                 sendIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_message)));
+                startActivity(Intent.createChooser(sendIntent,
+                        getResources().getText(R.string.share_message)));
             }
         });
 
@@ -280,7 +300,7 @@ public class MapsActivity extends AppCompatActivity implements
             mIntentLocation = new LatLng(Double.parseDouble(mUri.getQueryParameter("lat")),
                     Double.parseDouble(mUri.getQueryParameter("lng")));
             mIntentZoom = mUri.getQueryParameter("zoom");
-            Log.i("Tech Comm Map", "Intent found - zoom is " + mIntentZoom);
+            Log.i(TAG, "Intent found - zoom is " + mIntentZoom);
         }
     }
 
@@ -675,6 +695,89 @@ public class MapsActivity extends AppCompatActivity implements
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        }
+    }
+    /*
+    * Gets a shortened URL, using the Google URL shortening API.
+     */
+    private class GetShortUrlTask extends AsyncTask<Void,Void,String> {
+
+        String longUrl = "http://sarahmaddox.github.io/techcomm-map/";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mShareUrl = longUrl;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            Log.d(TAG, "Get short URL - JSON response:" + response);
+            String shortUrl;
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                shortUrl = jsonObject.getString("id");
+                Log.d(TAG, "Short URL: " + shortUrl);
+                mShareUrl = shortUrl;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            BufferedReader reader;
+            StringBuffer buffer;
+            String response = null;
+            String json = "{\"longUrl\": \"" + longUrl + "\"}";
+            try {
+                // Build the URL for the shortening service and add the API key.
+                URL url = new URL("https://www.googleapis.com/urlshortener/v1/url?key=" +
+                        getResources().getText(R.string.google_maps_key));
+                Log.d(TAG, "About to call URL shortener: " + url);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setReadTimeout(40000);
+                con.setConnectTimeout(40000);
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Content-Type", "application/json");
+                OutputStream os = con.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+
+                writer.write(json);
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int status=con.getResponseCode();
+                InputStream inputStream;
+                if(status == HttpURLConnection.HTTP_OK)
+                    inputStream = con.getInputStream();
+                else
+                    inputStream = con.getErrorStream();
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                buffer = new StringBuffer();
+
+                String line = "";
+                while ((line = reader.readLine()) != null)
+                {
+                    buffer.append(line);
+                }
+
+                response = buffer.toString();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return response;
+
         }
     }
 }
