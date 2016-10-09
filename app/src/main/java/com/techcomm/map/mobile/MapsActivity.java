@@ -279,7 +279,8 @@ public class MapsActivity extends AppCompatActivity implements
                 Log.i(TAG, "Share button clicked. Creating intent.");
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text));
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text) +
+                        " " + mShareUrl);
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent,
                         getResources().getText(R.string.share_message)));
@@ -734,8 +735,8 @@ public class MapsActivity extends AppCompatActivity implements
             try {
                 // Build the URL for the shortening service and add the API key.
                 URL url = new URL("https://www.googleapis.com/urlshortener/v1/url?key=" +
-                        getResources().getText(R.string.google_maps_key));
-                Log.d(TAG, "About to call URL shortener: " + url);
+                        getResources().getText(R.string.google_webservices_key));
+                // Call the shortening service.
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setReadTimeout(40000);
                 con.setConnectTimeout(40000);

@@ -3,4 +3,7 @@
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
         AIzaSyB7YOvSd1Wu1orWg1DItLXw8R1ArKklLiU
     </string>
+    <string name="google_webservices_key" translatable="false" templateMergeStrategy="preserve">
+        AIzaSyAlBDtWDntTgUi_fzunhb6DMdUeNeSh2OU
+    </string>
 </resources>
