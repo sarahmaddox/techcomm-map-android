@@ -75,6 +75,7 @@ public class MapsActivity extends AppCompatActivity implements
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_CURRENT_EVENT_ID = "current_event_id";
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final String TECHCOMM_MAP_URL = "http://sarahmaddox.github.io/techcomm-map/";
     private boolean locationPermissionGranted;
 
     // The entry point to Google Play services.
@@ -273,17 +274,9 @@ public class MapsActivity extends AppCompatActivity implements
         (findViewById(R.id.share_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Shorten the URL for the event that the user is sharing.
+                // Shorten the URL for the event that the user is sharing, then
+                // share the short URL.
                 new GetShortUrlTask().execute();
-                // Create the intent and start the chooser.
-                Log.i(TAG, "Share button clicked. Creating intent.");
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text) +
-                        " " + mShareUrl);
-                sendIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sendIntent,
-                        getResources().getText(R.string.share_message)));
             }
         });
 
@@ -671,7 +664,7 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     /**
-     * Updates the fields on the sliding panel with date from the currently-selected event.
+     * Updates the fields on the sliding panel with data from the currently-selected event.
      */
     private void updatePanelState() {
         EventData currentEvent = null;
@@ -693,6 +686,9 @@ public class MapsActivity extends AppCompatActivity implements
             ((TextView) findViewById(R.id.event_address)).setText(currentEvent.getAddress());
             ((TextView) findViewById(R.id.event_dates))
                     .setText(currentEvent.getStartDate() + " - " + currentEvent.getEndDate());
+            // Build the URL for event sharing.
+            mShareUrl = TECHCOMM_MAP_URL + "?lat=" + currentEvent.getLatitude() + "&lng=" +
+                    currentEvent.getLongitude() + "&zoom=14";
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
@@ -703,12 +699,9 @@ public class MapsActivity extends AppCompatActivity implements
      */
     private class GetShortUrlTask extends AsyncTask<Void,Void,String> {
 
-        String longUrl = "http://sarahmaddox.github.io/techcomm-map/";
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mShareUrl = longUrl;
         }
 
         @Override
@@ -720,7 +713,15 @@ public class MapsActivity extends AppCompatActivity implements
                 JSONObject jsonObject = new JSONObject(response);
                 shortUrl = jsonObject.getString("id");
                 Log.d(TAG, "Short URL: " + shortUrl);
-                mShareUrl = shortUrl;
+                // Create the intent and start the chooser.
+                Log.i(TAG, "Creating intent to share event.");
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text) +
+                        " " + shortUrl);
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent,
+                        getResources().getText(R.string.share_message)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -731,7 +732,7 @@ public class MapsActivity extends AppCompatActivity implements
             BufferedReader reader;
             StringBuffer buffer;
             String response = null;
-            String json = "{\"longUrl\": \"" + longUrl + "\"}";
+            String json = "{\"longUrl\": \"" + mShareUrl + "\"}";
             try {
                 // Build the URL for the shortening service and add the API key.
                 URL url = new URL("https://www.googleapis.com/urlshortener/v1/url?key=" +
