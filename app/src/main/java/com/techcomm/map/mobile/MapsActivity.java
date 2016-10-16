@@ -452,7 +452,7 @@ public class MapsActivity extends AppCompatActivity implements
                 getApplicationContext(),
                 this.map,
                 mClusterManager));
-        map.setOnCameraChangeListener(mClusterManager);
+        map.setOnCameraIdleListener(mClusterManager);
         map.setOnMarkerClickListener(mClusterManager);
         clickListener = new ClickListener();
         mClusterManager.setOnClusterItemClickListener(clickListener);
