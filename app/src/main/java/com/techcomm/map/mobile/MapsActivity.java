@@ -700,11 +700,6 @@ public class MapsActivity extends AppCompatActivity implements
     private class GetShortUrlTask extends AsyncTask<Void,Void,String> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
             Log.d(TAG, "Get short URL - JSON response:" + response);
