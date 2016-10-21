@@ -122,7 +122,7 @@ public class MapsActivity extends AppCompatActivity implements
         @Override
         public boolean onClusterItemClick(EventMarker eventMarker) {
             if (realm == null) {
-                Log.w(TAG, "Database not initialized at time of marker click");
+                Log.d(TAG, "Database not initialized at time of marker click");
                 return false;
             }
             EventData event = realm
@@ -177,7 +177,7 @@ public class MapsActivity extends AppCompatActivity implements
                 return;
             }
             if (currentSelectedEventId == null) {
-                Log.w(TAG, "Event ID was null when we expanded the panel");
+                Log.d(TAG, "Event ID was null when we expanded the panel");
                 return;
             }
             EventData event = realm
@@ -185,7 +185,7 @@ public class MapsActivity extends AppCompatActivity implements
                     .equalTo("localId", currentSelectedEventId)
                     .findFirst();
             if (event == null) {
-                Log.w(TAG, "No focused event when we expanded the panel");
+                Log.d(TAG, "No focused event when we expanded the panel");
                 return;
             }
 
@@ -251,13 +251,13 @@ public class MapsActivity extends AppCompatActivity implements
                 // Get the latitude and longitude of the selected place and pan the map
                 // to that location.
                 LatLng mLatLng = place.getLatLng();
-                Log.i(TAG, "Place: " + place.getName() + " at location: " + place.getLatLng());
+                Log.d(TAG, "Place: " + place.getName() + " at location: " + place.getLatLng());
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 14));
             }
 
             @Override
             public void onError(Status status) {
-                Log.i(TAG, "An error occurred in Place Autocomplete: " + status);
+                Log.d(TAG, "An error occurred in Place Autocomplete: " + status);
             }
         });
 
@@ -294,7 +294,7 @@ public class MapsActivity extends AppCompatActivity implements
             mIntentLocation = new LatLng(Double.parseDouble(mUri.getQueryParameter("lat")),
                     Double.parseDouble(mUri.getQueryParameter("lng")));
             mIntentZoom = mUri.getQueryParameter("zoom");
-            Log.i(TAG, "Intent found - zoom is " + mIntentZoom);
+            Log.d(TAG, "Intent found - zoom is " + mIntentZoom);
         }
     }
 
@@ -709,7 +709,7 @@ public class MapsActivity extends AppCompatActivity implements
                 shortUrl = jsonObject.getString("id");
                 Log.d(TAG, "Short URL: " + shortUrl);
                 // Create the intent and start the chooser.
-                Log.i(TAG, "Creating intent to share event.");
+                Log.d(TAG, "Creating intent to share event.");
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_text) +
