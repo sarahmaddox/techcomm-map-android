@@ -289,14 +289,19 @@ public class MapsActivity extends AppCompatActivity implements
         // Handle the case where the activity was called by an intent.
         // The intent data should contain the latitude and longitude for centering the map
         // and a zoom factor, formatted as URL parameters.
-        Uri mUri = this.getIntent().getData();
+        Log.d(TAG, "Intent action: " + getIntent().getAction() + " Type: " + getIntent().getType() + " Scheme: " + getIntent().getScheme());
+        Uri mUri = getIntent().getData();
         if (mUri != null && mUri.isHierarchical()) {
             mIntentLocation = new LatLng(Double.parseDouble(mUri.getQueryParameter("lat")),
                     Double.parseDouble(mUri.getQueryParameter("lng")));
             mIntentZoom = mUri.getQueryParameter("zoom");
             Log.d(TAG, "Intent URL found: " + mUri.toString());
         } else {
-            Log.d(TAG, "Intent URL is null or is not hierarchical.");
+            if (mUri != null) {
+                Log.d(TAG, "Intent URL is not hierarchical: " +  mUri.toString());
+            } else {
+                Log.d(TAG, "Intent URL is null.");
+            }
         }
     }
 
