@@ -87,7 +87,7 @@ public class MapsActivity extends AppCompatActivity implements
     // Data passed via the intent.
     LatLng mIntentLocation;
     String mIntentZoom;
-    private String mShareUrl;
+    private Uri mShareUrl;
 
     // A cluster manager for the event markers.
     private ClusterManager<EventMarker> mClusterManager;
@@ -294,7 +294,9 @@ public class MapsActivity extends AppCompatActivity implements
             mIntentLocation = new LatLng(Double.parseDouble(mUri.getQueryParameter("lat")),
                     Double.parseDouble(mUri.getQueryParameter("lng")));
             mIntentZoom = mUri.getQueryParameter("zoom");
-            Log.d(TAG, "Intent found - zoom is " + mIntentZoom);
+            Log.d(TAG, "Intent URL found: " + mUri.toString());
+        } else {
+            Log.d(TAG, "Intent URL is null or is not hierarchical.");
         }
     }
 
@@ -687,8 +689,8 @@ public class MapsActivity extends AppCompatActivity implements
             ((TextView) findViewById(R.id.event_dates))
                     .setText(currentEvent.getStartDate() + " - " + currentEvent.getEndDate());
             // Build the URL for event sharing.
-            mShareUrl = TECHCOMM_MAP_URL + "?lat=" + currentEvent.getLatitude() + "&lng=" +
-                    currentEvent.getLongitude() + "&zoom=14";
+            mShareUrl = Uri.parse(TECHCOMM_MAP_URL + "?lat=" + currentEvent.getLatitude() +
+                    "&lng=" + currentEvent.getLongitude() + "&zoom=14");
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
@@ -727,7 +729,7 @@ public class MapsActivity extends AppCompatActivity implements
             BufferedReader reader;
             StringBuffer buffer;
             String response = null;
-            String json = "{\"longUrl\": \"" + mShareUrl + "\"}";
+            String json = "{\"longUrl\": \"" + mShareUrl.toString() + "\"}";
             try {
                 // Build the URL for the shortening service and add the API key.
                 URL url = new URL("https://www.googleapis.com/urlshortener/v1/url?key=" +
