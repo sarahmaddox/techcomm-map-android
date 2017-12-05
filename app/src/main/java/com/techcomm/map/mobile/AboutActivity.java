@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
-import com.google.android.gms.common.GoogleApiAvailability;
-
 /**
  * Displays an "About" screen describing the app.
  */
@@ -28,11 +26,5 @@ public class AboutActivity extends AppCompatActivity {
         // by calling setMovementMethod() on the TextView object.
         TextView introTextView = (TextView) findViewById(R.id.about_intro);
         introTextView.setMovementMethod(LinkMovementMethod.getInstance());
-
-        // Get and display the Android legal notices.
-        String androidLicenseInfo = GoogleApiAvailability.getInstance()
-                .getOpenSourceSoftwareLicenseInfo(getApplicationContext());
-        TextView androidTextView = (TextView) findViewById(R.id.android_license);
-        androidTextView.setText(androidLicenseInfo);
     }
 }

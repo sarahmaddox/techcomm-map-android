@@ -42,11 +42,5 @@
         <TextView
             style="@style/AboutText"
             android:text="@string/saripaar_text" />
-        <TextView
-            style="@style/AboutH2"
-            android:text="@string/android_heading" />
-        <TextView
-            style="@style/AboutText"
-            android:id="@+id/android_license" />
     </LinearLayout>
 </ScrollView>

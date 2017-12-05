@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 26
     defaultConfig {
         applicationId "com.techcomm.map.mobile"
         minSdkVersion 14
-        targetSdkVersion 24
-        versionCode 3
-        versionName "2.0"
+        targetSdkVersion 26
+        versionCode 4
+        versionName "2.0.1"
     }
     buildTypes {
         release {
@@ -31,14 +30,17 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:cardview-v7:24.2.1'
-    compile 'com.google.android.gms:play-services:9.6.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.google.android.gms:play-services-location:11.6.2'
+    compile 'com.google.android.gms:play-services-maps:11.6.2'
+    compile 'com.google.android.gms:play-services-places:11.6.2'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
+    annotationProcessor 'io.realm:realm-android:0.80.1'
     compile 'io.realm:realm-android:0.80.1'
-    compile 'com.google.maps.android:android-maps-utils:0.4+'
+    compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.mobsandgeeks:android-saripaar:2.0.2'
-    compile 'com.google.android.gms:play-services-ads:9.6.1'
-    compile 'com.google.android.gms:play-services-auth:9.6.1'
-    compile 'com.google.android.gms:play-services-gcm:9.6.1'
+    compile 'com.google.android.gms:play-services-ads:11.6.2'
+    compile 'com.google.android.gms:play-services-auth:11.6.2'
+    compile 'com.google.android.gms:play-services-gcm:11.6.2'
 }
