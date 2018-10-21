@@ -1,12 +1,15 @@
 # Tech Comm on a Map
 
-Tech Comm on a Map puts technical communication events and other items of interest onto an
-interactive map, together with the data and functionality provided by Google Maps. It's available as
-as [an Android app](https://play.google.com/store/apps/details?id=com.techcomm.map.mobile)
-and also as a [web page](http://sarahmaddox.github.io/techcomm-map/). This repo contains
-the code for the Android app.
+> **Update on October 14th, 2018:** Hallo folks, I’ve decided to take down _Tech Comm on a Map_. 
+This means I’ll remove the web page and unpublish the Android app. The web page will remain
+available until the end of November 2018, to give people time to fix up any pages that are using it.
+The Android app will remain installed on your device if you’ve previously installed it, but it won’t
+be available for new installations. My
+[blog post](https://ffeathers.wordpress.com/2018/10/14/shutting-down-tech-comm-on-a-map)
+has more information.
 
-<a href="https://play.google.com/store/apps/details?id=com.techcomm.map.mobile&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=PartBadge&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" width="180px" /></a>
+Tech Comm on a Map puts technical communication events and other items of interest onto an
+interactive map, together with the data and functionality provided by Google Maps.
 
 Read more about the map and the project at [ffeathers
 blog](https://ffeathers.wordpress.com/tech-comm-on-a-map/).
